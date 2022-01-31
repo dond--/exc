@@ -1,10 +1,24 @@
 <html>
 <head>
   <link rel="stylesheet" media="all" href="style.css"/>
+  <script type="text/javascript">
+    function toggleAnimation(){
+      var timer=document.getElementById('timer');
+      var mask=document.getElementById('mask');
+      if(timer.classList.contains('paused')){
+        timer.classList.remove("paused");
+        mask.classList.remove("paused");
+      }else{
+        timer.classList.add("paused");
+        mask.classList.add("paused");
+      }
+    }
+  </script>
 </head>
 <body>
   <div id="header"><h1>Cvičme v&nbsp;rytme</h1></div>
-  <div id="timer"></div>
-  <div id="startStopButton"><button>Start</button></div>
+  <!-- https://stackoverflow.com/a/69481301/39642 -->
+  <div id="timer" style="--duration: 30;"><div class="mask" id="mask"></div></div>
+  <div id="startStopButton"><button onclick="toggleAnimation()">START / STOP</button></div>
 </body>
 </html>
