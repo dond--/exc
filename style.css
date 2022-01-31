@@ -1,0 +1,29 @@
+body {
+  background-color:#eee;
+}
+
+div {
+  border: solid 1px #999;
+}
+
+h1 {
+  text-align: center;
+}
+
+#header {
+  height: 10vh;
+}
+
+#timer {
+  height: 80vh;
+}
+
+#startStopButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+}
+
+#startStopButton button {
+}
