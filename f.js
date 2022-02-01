@@ -1,4 +1,4 @@
-const TIME_LIMIT=30;
+const TIME_LIMIT=7;
 const WARNING_THRESHOLD=10;
 const ALERT_THRESHOLD=5;
 const COLOR_CODES={
@@ -25,6 +25,8 @@ const WORKOUTS={
   leftPlank:{},
   situps:{}
 };
+const OPEN_AUDIO='./open.mp3';// https://freesound.org/people/zimbot/sounds/89358/
+const CLOSE_AUDIO='./close.mp3';// https://freesound.org/people/GameAudio/sounds/220173/
 
 let timePassed=null;
 let timeLeft=null;
@@ -45,7 +47,8 @@ function checkTimer(timeLeft){
     document.getElementById("timeLabel").innerHTML='00';
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='START';
     document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=start;
-    document.getElementById('closeAudio').play();
+    var ca=new Audio(CLOSE_AUDIO);
+    ca.play();
     return;
   }
   document.getElementById("timeLabel").innerHTML=formatTimeLeft(timeLeft);
@@ -84,6 +87,8 @@ function start(){
   startTimer();
   document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='PAUSE';
   document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=pause;
+  var oa=new Audio(OPEN_AUDIO);
+  oa.play();
 }
 
 function startTimer(){
@@ -92,7 +97,6 @@ function startTimer(){
     timeLeft=TIME_LIMIT-timePassed;
     checkTimer(timeLeft);
   }, 1000);
-  document.getElementById('openAudio').play();
 }
 
 function setRemainingTimeColor(timeLeft) {
