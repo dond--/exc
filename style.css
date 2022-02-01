@@ -81,6 +81,10 @@ h1 {
   font-color: #ccc;
 }
 
+#audio {
+  display: none;
+}
+
 #startStopButton {
   display: flex;
   justify-content: center;

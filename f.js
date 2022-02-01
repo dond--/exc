@@ -17,6 +17,14 @@ const COLOR_CODES={
     color:"default"
   }
 };
+const WORKOUTS={
+  squats:{},
+  pushups:{},
+  plank:{},
+  rightPlank:{},
+  leftPlank:{},
+  situps:{}
+};
 
 let timePassed=null;
 let timeLeft=null;
@@ -37,6 +45,7 @@ function checkTimer(timeLeft){
     document.getElementById("timeLabel").innerHTML='00';
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='START';
     document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=start;
+    document.getElementById('closeAudio').play();
     return;
   }
   document.getElementById("timeLabel").innerHTML=formatTimeLeft(timeLeft);
@@ -54,14 +63,17 @@ function formatTimeLeft(time){
 
 function pause(){
   var timer=document.getElementById('timer');
+  var header=document.getElementById('header');
   if(timer.classList.contains('paused')){
     startTimer();
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='PAUSE';
     timer.classList.remove("paused");
+    header.classList.remove("paused");
   }else{
     clearInterval(timerInterval);
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='GO';
     timer.classList.add("paused");
+    header.classList.add("paused");
   }
 }
 
@@ -80,6 +92,7 @@ function startTimer(){
     timeLeft=TIME_LIMIT-timePassed;
     checkTimer(timeLeft);
   }, 1000);
+  document.getElementById('openAudio').play();
 }
 
 function setRemainingTimeColor(timeLeft) {
