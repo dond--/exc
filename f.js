@@ -48,8 +48,8 @@ function formatTimeLeft(time){
   if(seconds<1)
     return '00';
   if(seconds<10)
-    seconds=`0${seconds}`;
-  return `${seconds}`;
+    seconds='0'+seconds;
+  return seconds;
 }
 
 function pause(){
