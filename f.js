@@ -58,12 +58,10 @@ function pause(){
     startTimer();
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='PAUSE';
     timer.classList.remove("paused");
-//     console.log('running');
   }else{
     clearInterval(timerInterval);
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='GO';
     timer.classList.add("paused");
-//     console.log('paused');
   }
 }
 
