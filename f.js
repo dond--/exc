@@ -24,21 +24,19 @@ let timerInterval=null;
 let remainingPathColor=COLOR_CODES.default.color;
 
 function init(){
-  timePassed=0;
   document.getElementById("timeLabel").innerHTML=formatTimeLeft(TIME_LIMIT);
-  setRemainingPathColor(TIME_LIMIT);
-  startTimer();
-  document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='PAUSE';
-  document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=pause;
+  setTimerColor(COLOR_CODES.default.color);
+  document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='START';
+  document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=start;
 }
 
 function checkTimer(timeLeft){
-  setRemainingPathColor(timeLeft);
+  setRemainingTimeColor(timeLeft);
   if(timeLeft<=0){
     clearInterval(timerInterval);
     document.getElementById("timeLabel").innerHTML='00';
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='START';
-    document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=init;
+    document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=start;
     return;
   }
   document.getElementById("timeLabel").innerHTML=formatTimeLeft(timeLeft);
@@ -69,6 +67,15 @@ function pause(){
   }
 }
 
+function start(){
+  timePassed=0;
+  document.getElementById("timeLabel").innerHTML=formatTimeLeft(TIME_LIMIT);
+  setRemainingTimeColor(TIME_LIMIT);
+  startTimer();
+  document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='PAUSE';
+  document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=pause;
+}
+
 function startTimer(){
   timerInterval=setInterval(()=>{
     timePassed=timePassed+=1;
@@ -77,26 +84,27 @@ function startTimer(){
   }, 1000);
 }
 
-function setRemainingPathColor(timeLeft) {
+function setRemainingTimeColor(timeLeft) {
   if(timeLeft==0){
-    document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.alert.color);
-    document.getElementById("timeLabel").classList.remove(COLOR_CODES.alert.color);
-    document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.default.color);
-    document.getElementById("timeLabel").classList.add(COLOR_CODES.default.color);
+    setTimerColor(COLOR_CODES.default.color);
   }else if(timeLeft<=ALERT_THRESHOLD){
-    document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.warning.color);
-    document.getElementById("timeLabel").classList.remove(COLOR_CODES.warning.color);
-    document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.alert.color);
-    document.getElementById("timeLabel").classList.add(COLOR_CODES.alert.color);
+    setTimerColor(COLOR_CODES.alert.color);
   }else if(timeLeft<=WARNING_THRESHOLD){
-    document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.info.color);
-    document.getElementById("timeLabel").classList.remove(COLOR_CODES.info.color);
-    document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.warning.color);
-    document.getElementById("timeLabel").classList.add(COLOR_CODES.warning.color);
+    setTimerColor(COLOR_CODES.warning.color);
   }else{
-    document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.default.color);
-    document.getElementById("timeLabel").classList.remove(COLOR_CODES.default.color);
-    document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.info.color);
-    document.getElementById("timeLabel").classList.add(COLOR_CODES.info.color);
+    setTimerColor(COLOR_CODES.info.color);
   }
+}
+
+function setTimerColor(color){
+  var p=document.getElementById("timer_path-remaining"); 
+  var l=document.getElementById("timeLabel");
+  for(var c in COLOR_CODES){
+    if(l.classList.contains(COLOR_CODES[c].color))
+      l.classList.remove(COLOR_CODES[c].color)
+    if(p.classList.contains(COLOR_CODES[c].color))
+      p.classList.remove(COLOR_CODES[c].color)
+  }
+  p.classList.add(color);
+  l.classList.add(color);
 }
