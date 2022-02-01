@@ -12,24 +12,28 @@ const COLOR_CODES={
   alert:{
     color:"red",
     threshold:ALERT_THRESHOLD
+  },
+  default:{
+    color:"default"
   }
 };
 
 let timePassed=null;
 let timeLeft=null;
 let timerInterval=null;
-let remainingPathColor=COLOR_CODES.info.color;
+let remainingPathColor=COLOR_CODES.default.color;
 
 function init(){
   timePassed=0;
   document.getElementById("timeLabel").innerHTML=formatTimeLeft(TIME_LIMIT);
+  setRemainingPathColor(TIME_LIMIT);
   startTimer();
-  document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.info.color);
   document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='PAUSE';
   document.getElementById('startStopButton').getElementsByTagName('button')[0].onclick=pause;
 }
 
 function checkTimer(timeLeft){
+  setRemainingPathColor(timeLeft);
   if(timeLeft<=0){
     clearInterval(timerInterval);
     document.getElementById("timeLabel").innerHTML='00';
@@ -38,7 +42,6 @@ function checkTimer(timeLeft){
     return;
   }
   document.getElementById("timeLabel").innerHTML=formatTimeLeft(timeLeft);
-  setRemainingPathColor(timeLeft);
 }
 
 function formatTimeLeft(time){
@@ -48,7 +51,6 @@ function formatTimeLeft(time){
     return '00';
   if(seconds<10)
     seconds=`0${seconds}`;
-//   return `${minutes}:${seconds}`;
   return `${seconds}`;
 }
 
@@ -58,12 +60,12 @@ function pause(){
     startTimer();
     document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='PAUSE';
     timer.classList.remove("paused");
-    console.log('running');
+//     console.log('running');
   }else{
     clearInterval(timerInterval);
-    document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='RUN';
+    document.getElementById('startStopButton').getElementsByTagName('button')[0].innerHTML='GO';
     timer.classList.add("paused");
-    console.log('paused');
+//     console.log('paused');
   }
 }
 
@@ -76,11 +78,25 @@ function startTimer(){
 }
 
 function setRemainingPathColor(timeLeft) {
-  if(timeLeft<=ALERT_THRESHOLD){
+  if(timeLeft==0){
+    document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.alert.color);
+    document.getElementById("timeLabel").classList.remove(COLOR_CODES.alert.color);
+    document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.default.color);
+    document.getElementById("timeLabel").classList.add(COLOR_CODES.default.color);
+  }else if(timeLeft<=ALERT_THRESHOLD){
     document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.warning.color);
+    document.getElementById("timeLabel").classList.remove(COLOR_CODES.warning.color);
     document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.alert.color);
+    document.getElementById("timeLabel").classList.add(COLOR_CODES.alert.color);
   }else if(timeLeft<=WARNING_THRESHOLD){
     document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.info.color);
+    document.getElementById("timeLabel").classList.remove(COLOR_CODES.info.color);
     document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.warning.color);
+    document.getElementById("timeLabel").classList.add(COLOR_CODES.warning.color);
+  }else{
+    document.getElementById("timer_path-remaining").classList.remove(COLOR_CODES.default.color);
+    document.getElementById("timeLabel").classList.remove(COLOR_CODES.default.color);
+    document.getElementById("timer_path-remaining").classList.add(COLOR_CODES.info.color);
+    document.getElementById("timeLabel").classList.add(COLOR_CODES.info.color);
   }
 }
